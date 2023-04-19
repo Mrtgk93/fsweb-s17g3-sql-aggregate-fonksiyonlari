@@ -91,49 +91,87 @@ WHERE i.ogrno =o.ogrno
     		left join tur t on t.turno=k.turno
 
     13) 10A veya 10B sınıfındaki öğrencilerin adı soyadı ve okuduğu kitap sayısını getirin.
-
+    cevap:	select o.ograd ,o.ogrsoyad,count(k.kitapno) as kitap_sayisi  from ogrenci o
+    		join islem i on i.ogrno=o.ogrno
+    		join kitap k on k.kitapno=i.kitapno
+    		where o.sinif in('10A','10B')
+    		group by o.ogrno
 
     14) Tüm kitapların ortalama sayfa sayısını bulunuz.
     #AVG
+    cevap:	select AVG(sayfasayisi) from kitap
 
     15) Sayfa sayısı ortalama sayfanın üzerindeki kitapları listeleyin.
-
+    cevap:	select * from kitap
+    		where sayfasayisi > (select AVG(sayfasayisi) from kitap)
 
     16) Öğrenci tablosundaki öğrenci sayısını gösterin
+    cevap:	select count(ogrno) from ogrenci
 
 
     17) Öğrenci tablosundaki toplam öğrenci sayısını toplam sayı takma(alias kullanımı) adı ile listeleyin.
+    cevap:	select count(ogrno) as 'Toplam Sayı' from ogrenci
 
 
     18) Öğrenci tablosunda kaç farklı isimde öğrenci olduğunu listeleyiniz.
-
+    cevap:	select DISTINCT ograd from ogrenci
 
     19) En fazla sayfa sayısı olan kitabın sayfa sayısını listeleyiniz.
+    cevap:	1.yol select * from kitap
+    			  order by sayfasayisi desc
+    			  limit 1
 
+    		2.yol select  *  from kitap
+    			  WHERE sayfasayisi = (select MAX(sayfasayisi) from kitap)
 
     20) En fazla sayfası olan kitabın adını ve sayfa sayısını listeleyiniz.
+    cevap:	1.yol	select kitapadi,sayfasayisi  from kitap
+    				order by sayfasayisi desc
+    				limit 1
 
+    		2.yol	select  kitapadi ,sayfasayisi  from kitap
+    				WHERE sayfasayisi = (select MAX(sayfasayisi) from kitap)
 
     21) En az sayfa sayısı olan kitabın sayfa sayısını listeleyiniz.
+    cevap:	1.yol	select sayfasayisi  from kitap
+    				order by sayfasayisi asc
+    				limit 1
 
+    		2.yol	select  sayfasayisi  from kitap
+    				WHERE sayfasayisi = (select MIN(sayfasayisi) from kitap)
 
     22) En az sayfası olan kitabın adını ve sayfa sayısını listeleyiniz.
+    cevap:	1.yol	select kitapadi , sayfasayisi  from kitap
+    				order by sayfasayisi asc
+        			limit 1
 
-
+    		2.yol	select kitapadi , sayfasayisi  from kitap
+    				WHERE sayfasayisi = (select MIN(sayfasayisi) from kitap)
     23) Dram türündeki en fazla sayfası olan kitabın sayfa sayısını bulunuz.
-
+    cevap:	select max(sayfasayisi) from kitap k
+    		join tur t on t.turno=k.turno
+    		where turadi='Dram'
 
     24) numarası 15 olan öğrencinin okuduğu toplam sayfa sayısını bulunuz.
+    cevap:	select SUM(sayfasayisi) from kitap k
+    		JOIN islem	i on i.kitapno=k.kitapno
+    		JOIN ogrenci o on o.ogrno = i.ogrno
+    		where o.ogrno =15
 
 
     25) İsme göre öğrenci sayılarının adedini bulunuz.(Örn: ali 5 tane, ahmet 8 tane )
+    cevap:	select CONCAT(ograd ,count(ograd), ' tane') from ogrenci o
+    		group by ograd
 
 
     26) Her sınıftaki öğrenci sayısını bulunuz.
+    cevap:	select count(ogrno) as 'Öğrenci Sayısı',sinif  from ogrenci
+    		group by sinif
 
 
     27) Her sınıftaki erkek ve kız öğrenci sayısını bulunuz.
-
+    cevap:	select count(ogrno) as 'Öğrenci Sayısı',sinif,cinsiyet  from ogrenci
+    		group by sinif,cinsiyet
 
     28) Her öğrencinin adını, soyadını ve okuduğu toplam sayfa sayısını büyükten küçüğe doğru listeleyiniz.
 
